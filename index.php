@@ -6,6 +6,7 @@ Stampiamo delle card contenenti i dettagli dei prodotti, come immagine, titolo, 
 require_once __DIR__ . '/models/prodotti.php';
 require_once __DIR__ . '/models/pet.php';
 require_once __DIR__ . '/database/db.php';
+//require_once __DIR__ . '/models/categoria.php';
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +27,19 @@ require_once __DIR__ . '/database/db.php';
                 <img src="<?php echo $elem->immagine ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $elem->nome ?></h5>
-                    <div class="card-text"><?php echo $elem->prezzo ?></div>
+                    <div class="card-text"><?php 
+                    try {
+                        if ($elem->prezzo < 15) {
+                            throw new Exception('Il valore del prezzo è minore di 15');
+                        }elseif($elem->prezzo > 60){
+                            throw new Exception('Il valore del prezzo è maggiore di 60');
+                        }
+                        echo $elem->prezzo;
+                    } catch (Exception $e) {
+                        echo 'Eccezione: ' . 
+                        $e->getMessage() . '<br>';
+                    }                    
+                     ?></div>
                     <div><?php echo $elem->categoria ?></div>
                     <div class="text-end">
                         <?php 
